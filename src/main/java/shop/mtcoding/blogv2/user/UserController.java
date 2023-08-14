@@ -52,4 +52,23 @@ public class UserController {
         session.setAttribute("sessionUser", sessionUser);
         return Script.href("/");
     }
+
+    @GetMapping("/user/updateForm")
+    public String updateForm(HttpServletRequest request){
+        User sessionUser = (User) session.getAttribute("sessionUser");  //로그인 했다생각하고 세션유저를 가졍ㅁ 
+        User user = userService.회원정보보기(sessionUser.getId());  //회원정보
+        request.setAttribute("user", user);  
+        return "user/updateForm";
+    }
+
+    @PostMapping("/user/update")
+    public String update(UserRequest.updateDTO updateDTO){
+        //1,회원수정(서비스) ,핵심로직
+        //2,세션동기화
+        User sessionUser = (User) session.getAttribute("sessionUser"); //세션을 가져옴 
+        User user = userService.회원수정(updateDTO,sessionUser.getId());
+        session.setAttribute("sesstionUser", user);  //바뀐걸로 동기화
+        return "redirect:/";
+
+    }
 }

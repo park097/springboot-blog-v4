@@ -20,4 +20,11 @@ public class UserRequest {
         private String username;
         private String password;
     }
+
+
+    @Getter
+    @Setter
+    public static class updateDTO {    //패스워드만 날릴거니까
+        private String password;
+    }
 }
