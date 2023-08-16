@@ -43,6 +43,21 @@ public class UserController {
         return "user/loginForm";
     }
 
+
+  //브라우저가 get /logout 요청을 함 (requset1)
+  //서버는 /주소를 응답의 헤더에 담음 (location) ,상태코드 302  (재요청 ,redirection)
+  //브라우저는 다시 GET /로 재요청을 함 (requst2)
+  //index 페이지 응답받고 랜더링 함
+  
+
+
+
+    @GetMapping("/logout")
+    public String logout() {
+        session.invalidate(); // 세션 무효화 (내 서랍을 비우는 것)
+        return "redirect:/";
+    }
+
     @PostMapping("/login")
     public @ResponseBody String login(UserRequest.LoginDTO loginDTO) {
         User sessionUser = userService.로그인(loginDTO);

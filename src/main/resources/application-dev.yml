@@ -5,6 +5,10 @@ server:
       force: true
   port: 8080
 spring:
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+      
   mustache:
     servlet:
       expose-session-attributes: true
