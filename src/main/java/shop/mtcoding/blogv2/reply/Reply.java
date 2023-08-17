@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,6 +34,9 @@ public class Reply {
 
     @Column(nullable = false, length = 100)
     private String comment;
+
+ 
+
 
     @ManyToOne
     private User user;

@@ -3,6 +3,7 @@ package shop.mtcoding.blogv2.board;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,18 @@ public class BoardRepositoryTest {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Test
+    public void findById_test(){
+    Optional<Board> boardOP = boardRepository.findById(6);
+    if (boardOP.isPresent()){   //board가 존재하면!!(null안정성)
+        System.out.println("테스트:board가 있습니다.");
+        
+    }
+}
+
+
+    
     
     @Test
     public void mFindAll_test(){
@@ -41,15 +54,15 @@ public class BoardRepositoryTest {
     }
 
 
-   @Test
-    public void findAll_paging_test() throws JsonProcessingException{
-        Pageable pageable = PageRequest.of(0, 3, Direction.DESC,"id");
-       Page<Board>boardPG = boardRepository.findAll(pageable);
-       //OBJECTMAPPER 은  BOARDPG의 객체의 GETTER을 호출하면서 JSON을 변환
-       ObjectMapper om = new ObjectMapper();
-       String json= om.writeValueAsString(boardPG);
-       System.out.println(json);
-    }
+//    @Test
+//     public void findAll_paging_test() throws JsonProcessingException{
+//         Pageable pageable = PageRequest.of(0, 3, Direction.DESC,"id");
+//        Page<Board>boardPG = boardRepository.findAll(pageable);
+//        //OBJECTMAPPER 은  BOARDPG의 객체의 GETTER을 호출하면서 JSON을 변환
+//        ObjectMapper om = new ObjectMapper();
+//        String json= om.writeValueAsString(boardPG);
+//        System.out.println(json);
+//     }
 
     @Test
     public void save_test() {

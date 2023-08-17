@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -18,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.bytebuddy.dynamic.TypeResolutionStrategy.Lazy;
+import shop.mtcoding.blogv2.reply.Reply;
 import shop.mtcoding.blogv2.user.User;
 
 @NoArgsConstructor
@@ -26,10 +28,10 @@ import shop.mtcoding.blogv2.user.User;
 @Table(name = "board_tb")
 @Entity // ddl-auto가 create
 public class Board {
-    @Id
+     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+   
     @Column(nullable = false, length = 100)
     private String title;
     @Column(nullable = true, length = 10000)
@@ -37,10 +39,12 @@ public class Board {
 
     @ManyToOne (fetch = FetchType.LAZY)  //컨트롤 스페이스 ,얘를 안 땡겨옴(lazy) ,(eager)을적으면 default 안적어도 있는거,연관된 애를 바로 fetch
     private User user;  //1+n  
-
+    
+   
     @CreationTimestamp
     private Timestamp createdAt;
-
+    
+   
     @Builder
     public Board(Integer id, String title, String content, User user, Timestamp createdAt) {
         this.id = id;

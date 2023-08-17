@@ -10,4 +10,14 @@ public class BoardRequest {
         private String title;
         private String content;
     }
+  @Getter
+  @Setter
+    public static class UpdateDTO {
+        private Integer id;
+         private String title;
+        private String content;
+        
+    }
+
+
 }
