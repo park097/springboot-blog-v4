@@ -26,6 +26,8 @@ public class BoardController {
     @Autowired
     private BoardService boardService;
 
+    @Autowired BoardRepository boardRepository;
+
     //where데이터,body, session값
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable Integer id, BoardRequest.UpdateDTO updateDTO) {
@@ -63,10 +65,15 @@ public @ResponseBody String delete(@PathVariable Integer id) {
           return Script.href("/");
 
       
-       
-    
-   
 }
+    
+    
+@GetMapping("/test/board/{id}")
+public @ResponseBody Board testDetail(@PathVariable Integer id) {
+    Board board = boardRepository.mFindByIdJoinRepliesInUser(id).get();
+    return board; 
+}
+
 
 
     @GetMapping("/board/{id}")

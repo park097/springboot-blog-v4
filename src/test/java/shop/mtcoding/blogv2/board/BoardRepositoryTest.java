@@ -25,13 +25,22 @@ public class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
 
+    // @Test
+    // public void mFindByIdJoinRepliesInUser_test(){
+    //     Board board =boardRepository.mFindByIdJoinRepliesInUser(1);
+    //     System.out.println("board : id " +board.getId());
+    //     System.out.println("board : title " +board.getId());
+    //     System.out.println("board : content " +board.getId());
+    //     System.out.println("board : createdAt " +board.getId());
+    //     System.out.println("=============================");}
+     
+
+
+    
     @Test
     public void findById_test(){
-    Optional<Board> boardOP = boardRepository.findById(6);
-    if (boardOP.isPresent()){   //board가 존재하면!!(null안정성)
-        System.out.println("테스트:board가 있습니다.");
-        
-    }
+    Optional<Board> boardOP = boardRepository.findById(5);
+    
 }
 
 
@@ -77,6 +86,24 @@ public class BoardRepositoryTest {
         boardRepository.save(board); // insert 자동으로 실행됨
         // 디비데이터와 동기화됨
         System.out.println(board.getId());
+    }
+
+    
+    @Test
+    public void mFindByIdJoinUserAndReplies_test(){
+        Board board = boardRepository.mFindByIdJoinRepliesInUser(1).get();
+        System.out.println("board : id : "+board.getId());
+        System.out.println("board : title : "+board.getTitle());
+        System.out.println("board : content : "+board.getContent());
+        System.out.println("board : createdAt : "+board.getCreatedAt());
+        System.out.println("===================");
+        board.getReplies().stream().forEach(r -> {
+            System.out.println("board in replies : id : "+r.getId());
+            System.out.println("board in replies : comment : "+r.getComment());
+            System.out.println("board in replies in user : id : "+r.getUser().getId());
+            System.out.println("board in replies in user : username : "+r.getUser().getUsername());
+        });
+        
     }
 
 

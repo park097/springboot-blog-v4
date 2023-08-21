@@ -48,7 +48,15 @@ public class BoardService  {
 
     public Board 상세보기(Integer id) {
         //board만 가져오면 된다 그래서 mfind를 안쓴다.
-      return  boardRepository.findById(id).get();
+        
+      Optional<Board> boardOP = boardRepository.mFindByIdJoinRepliesInUser(id);
+      if(boardOP.isPresent()){
+        return boardOP.get();
+      }else {
+        throw new RuntimeException(id+ "는 찾을 수 없습니다.");
+      }
+      
+      //옵셔널은 없는 번호에 접근하려고 할 때 경고창 같은 거 쓸 때 
         
         
 }

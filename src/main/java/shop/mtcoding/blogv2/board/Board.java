@@ -1,6 +1,8 @@
 package shop.mtcoding.blogv2.board;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +15,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -37,6 +42,12 @@ public class Board {
     @Column(nullable = true, length = 10000)
     private String content;
 
+
+     @JsonIgnoreProperties({"board"})  //제이슨 객체 안에있는 필드들을  
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)     //  양방향 매핑 ,포린키가 아님 ,one to many는 lazy 전략 (default)
+    private List<Reply> replies = new ArrayList<>();
+    
+    @JsonIgnore    // 제이슨으로 줄 때 얘는 안주겠다
     @ManyToOne (fetch = FetchType.LAZY)  //컨트롤 스페이스 ,얘를 안 땡겨옴(lazy) ,(eager)을적으면 default 안적어도 있는거,연관된 애를 바로 fetch
     private User user;  //1+n  
     

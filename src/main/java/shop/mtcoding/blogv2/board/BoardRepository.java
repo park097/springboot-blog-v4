@@ -2,6 +2,9 @@ package shop.mtcoding.blogv2.board;
 
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.criteria.CriteriaBuilder.In;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,8 +26,9 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
   //   @Modifying
   //   @Query("DELETE FROM Board b WHERE b.id = :id")
   //   void deleteById(@Param("id") Integer id);
-    
   
+  @Query("select b from Board b left join fetch b.replies r left join fetch r.user ru where b.id = :id")
+  Optional<Board> mFindByIdJoinRepliesInUser(@Param("id") Integer id);
 
 
   //   @Modifying
