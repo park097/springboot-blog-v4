@@ -7,9 +7,8 @@ public class ReplyRequest {
 
     @Getter
     @Setter
-    public static class RplyDTO {
+    public static class SaveDTO {
     
-        
         private Integer boardId;
         private String comment;
 

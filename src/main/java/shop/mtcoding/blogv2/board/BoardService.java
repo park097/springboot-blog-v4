@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv2._core.error.ex.MyException;
 import shop.mtcoding.blogv2.user.User;
 
 /**
@@ -53,7 +54,7 @@ public class BoardService  {
       if(boardOP.isPresent()){
         return boardOP.get();
       }else {
-        throw new RuntimeException(id+ "는 찾을 수 없습니다.");
+        throw new MyException(id+ "는 찾을 수 없습니다.");
       }
       
       //옵셔널은 없는 번호에 접근하려고 할 때 경고창 같은 거 쓸 때 
@@ -75,6 +76,8 @@ public void update(BoardRequest.UpdateDTO updateDTO, Integer id) {
     board.setContent(updateDTO.getContent());
 
 
+}else {
+    throw new MyException(id + "는 찾을 수 없습니다");
 }
 }
 
@@ -86,7 +89,7 @@ public void deleteById(Integer id)  {
         boardRepository.deleteById(6);
         
     } catch (Exception e) {
-        throw new RuntimeException("6번은 없어요");
+        throw new MyException("6번은 없어요");
     }
  
     
