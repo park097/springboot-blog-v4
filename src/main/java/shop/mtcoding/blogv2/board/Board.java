@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,6 +50,7 @@ public class Board {
     
     @JsonIgnore    // 제이슨으로 줄 때 얘는 안주겠다
     @ManyToOne (fetch = FetchType.LAZY)  //컨트롤 스페이스 ,얘를 안 땡겨옴(lazy) ,(eager)을적으면 default 안적어도 있는거,연관된 애를 바로 fetch
+    // @ManyToOne (fetch = FetchType.LAZY,  cascade = CascadeType.ALL)  //컨트롤 스페이스 ,얘를 안 땡겨옴(lazy) ,(eager)을적으면 default 안적어도 있는거,연관된 애를 바로 fetch
     private User user;  //1+n  
     
    

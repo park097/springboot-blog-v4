@@ -5,14 +5,12 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import shop.mtcoding.blogv2._core.error.ex.MyException;
+import shop.mtcoding.blogv2._core.util.ApiUtil;
 import shop.mtcoding.blogv2._core.util.Script;
-import shop.mtcoding.blogv2.board.BoardService;
 
 @Controller
 public class UserController {
@@ -21,8 +19,22 @@ public class UserController {
 
     private UserService userService;
 
-    @Autowired
+   
+    
+   @Autowired
     private HttpSession session;
+
+     @GetMapping("/api/check")
+    public @ResponseBody ApiUtil<String> checkUsername(String username){
+       
+
+
+        //3,응답
+        return userService.checkUsername(username);
+
+
+
+    }
 
     // C - V
     @GetMapping("/joinForm")
@@ -33,6 +45,9 @@ public class UserController {
     // M - V - C
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO joinDTO) {
+        // System.out.println(joinDTO.getPic().getOriginalFilename());
+        // System.out.println(joinDTO.getPic().get());
+        // System.out.println(joinDTO.getPic().getOriginalFilename());
         // 10초짜리 코드
         userService.회원가입(joinDTO);
         return "user/loginForm"; //persist 초기화 ,퍼시스트 공간이 독립적으로 존재
@@ -68,13 +83,12 @@ public class UserController {
     }
 
     @GetMapping("/user/updateForm")
-    public String updateForm(HttpServletRequest request){
-        User sessionUser = (User) session.getAttribute("sessionUser");  //로그인 했다생각하고 세션유저를 가졍ㅁ 
-        User user = userService.회원정보보기(sessionUser.getId());  //회원정보
-        request.setAttribute("user", user);  
+    public String updateForm(HttpServletRequest request) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        User user = userService.회원정보보기(sessionUser.getId());
+        request.setAttribute("user", user);
         return "user/updateForm";
     }
-
     @PostMapping("/user/update")
     public String update(UserRequest.updateDTO updateDTO){
         //1,회원수정(서비스) ,핵심로직

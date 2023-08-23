@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import shop.mtcoding.blogv2._core.error.ex.MyException;
+import shop.mtcoding.blogv2.reply.ReplyRepository;
 import shop.mtcoding.blogv2.user.User;
 
 /**
@@ -30,6 +31,8 @@ public class BoardService  {
 
     @Autowired
     private BoardRepository boardRepository;
+    @Autowired
+    private ReplyRepository replyRepository;
 
     @Transactional
     public void 글쓰기(BoardRequest.SaveDTO saveDTO, int sessionUserId) {

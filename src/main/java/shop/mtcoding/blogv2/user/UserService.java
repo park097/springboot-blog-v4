@@ -1,10 +1,18 @@
 package shop.mtcoding.blogv2.user;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import shop.mtcoding.blogv2._core.error.ex.MyApiException;
 import shop.mtcoding.blogv2._core.error.ex.MyException;
+import shop.mtcoding.blogv2._core.util.ApiUtil;
+import shop.mtcoding.blogv2._core.vo.MyPath;
 import shop.mtcoding.blogv2.user.UserRequest.JoinDTO;
 import shop.mtcoding.blogv2.user.UserRequest.LoginDTO;
 import shop.mtcoding.blogv2.user.UserRequest.updateDTO;
@@ -18,10 +26,29 @@ public class UserService {
 
     @Transactional
     public void 회원가입(JoinDTO joinDTO) {
+
+        UUID uuid = UUID.randomUUID(); // 랜덤한 해시값을 만들어줌
+
+        String fileName = uuid+"_"+joinDTO.getPic().getOriginalFilename();
+        System.out.println("fileName : "+fileName);
+
+        // 프로젝트 실행 파일변경 -> blogv2-1.0.jar
+        // 해당 실행파일 경로에 images 폴더가 필요함
+        Path filePath = Paths.get(MyPath.IMG_PATH+fileName);
+        System.out.println("여기까지 돼?" + filePath);
+        try {
+            Files.write(filePath, joinDTO.getPic().getBytes());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new MyException(e.getMessage());
+            
+        }
+
         User user = User.builder()
                 .username(joinDTO.getUsername())
                 .password(joinDTO.getPassword())
                 .email(joinDTO.getEmail())
+                .picUrl(fileName)
                 .build();
         userRepository.save(user); // em.persist
     }
@@ -60,4 +87,17 @@ public class UserService {
         //3,flush
     }
 
+
+     
+    
+    public ApiUtil<String>checkUsername(String username) {
+        User user = userRepository.findByUsername(username);
+        if (user != null) {
+            throw new MyApiException("유저네임을 사용할 수 없습니다");
+        }
+        return new ApiUtil<String>(true,"유저네임을 사용할 수 있습니다.");
+        // 유저네임에 해당하는 사용자 찾기
+    }
+    
 }
+  
