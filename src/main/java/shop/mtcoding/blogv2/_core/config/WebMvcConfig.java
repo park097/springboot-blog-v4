@@ -1,9 +1,12 @@
 package shop.mtcoding.blogv2._core.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
+
+import shop.mtcoding.blogv2._core.intercepter.LoginInterceptor;
 
 //사진 외부경로 정해주는거
 @Configuration   //메모리에 띄움 ,
@@ -23,6 +26,15 @@ public class WebMvcConfig implements WebMvcConfigurer{
          .resourceChain(true)
          .addResolver(new PathResourceResolver());
     }
+ //등록
+ @Override
+ public void addInterceptors(InterceptorRegistry registry) {
+     registry.addInterceptor(new LoginInterceptor())
+             .addPathPatterns("/api/**")
+             .addPathPatterns("/user/update" ,"/user/updateForm")
+             .addPathPatterns("/board/**") // 발동 조건
+             .excludePathPatterns("/board/{id:[0-9]+}"); // 발동 제외
+ }//필터링
 
     
 
