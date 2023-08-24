@@ -28,16 +28,15 @@ public class UserService {
     public void 회원가입(JoinDTO joinDTO) {
 
         UUID uuid = UUID.randomUUID(); // 랜덤한 해시값을 만들어줌
-
+        
         String fileName = uuid+"_"+joinDTO.getPic().getOriginalFilename();
         System.out.println("fileName : "+fileName);
 
         // 프로젝트 실행 파일변경 -> blogv2-1.0.jar
         // 해당 실행파일 경로에 images 폴더가 필요함
         Path filePath = Paths.get(MyPath.IMG_PATH+fileName);
-        System.out.println("여기까지 돼?" + filePath);
         try {
-            Files.write(filePath, joinDTO.getPic().getBytes());
+            Files.write(filePath, joinDTO.getPic().getBytes()); //hdd에저장
         } catch (Exception e) {
             e.printStackTrace();
             throw new MyException(e.getMessage());
@@ -50,6 +49,7 @@ public class UserService {
                 .email(joinDTO.getEmail())
                 .picUrl(fileName)
                 .build();
+                System.out.println(fileName);
         userRepository.save(user); // em.persist
     }
 

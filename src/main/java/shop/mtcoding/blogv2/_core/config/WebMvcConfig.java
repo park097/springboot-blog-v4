@@ -11,8 +11,9 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 //입구에서 필터링, 쫓아내는거, 문지기한테 문서를 주는 거
 public class WebMvcConfig implements WebMvcConfigurer{
 
-    @Override    //기존에 하는 일은 두고 그대로 재정의 
+    @Override    
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+         //기존에 하는 일은 두고 그대로 재정의
         WebMvcConfigurer.super.addResourceHandlers(registry);
 
          //images 하면 .images를 찾으러 감 

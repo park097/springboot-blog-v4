@@ -28,6 +28,7 @@ public class BoardController {
 
     @Autowired BoardRepository boardRepository;
 
+   
     //where데이터,body, session값
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable Integer id, BoardRequest.UpdateDTO updateDTO) {
